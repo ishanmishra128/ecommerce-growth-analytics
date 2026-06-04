@@ -1,0 +1,64 @@
+{{ config(materialized='view') }}
+
+with source as (
+
+    select *
+    from {{ source('ga4', 'events') }}
+
+),
+
+renamed as (
+
+    select
+        parse_date('%Y%m%d', event_date) as event_date,
+        timestamp_micros(event_timestamp) as event_timestamp,
+        event_name,
+
+        user_pseudo_id,
+
+        cast((
+            select value.int_value
+            from unnest(event_params)
+            where key = 'ga_session_id'
+        ) as string) as ga_session_id,
+
+        concat(
+            user_pseudo_id,
+            '-',
+            cast((
+                select value.int_value
+                from unnest(event_params)
+                where key = 'ga_session_id'
+            ) as string)
+        ) as session_key,
+
+        to_hex(md5(concat(
+            coalesce(user_pseudo_id, ''),
+            '-',
+            coalesce(cast(event_timestamp as string), ''),
+            '-',
+            coalesce(event_name, ''),
+            '-',
+            coalesce(cast((
+                select value.int_value
+                from unnest(event_params)
+                where key = 'ga_session_id'
+            ) as string), '')
+        ))) as event_key,
+
+        platform,
+        device.category as device_category,
+        geo.country as country,
+
+        (
+            select value.string_value
+            from unnest(event_params)
+            where key = 'transaction_id'
+        ) as transaction_id
+
+    from source
+
+)
+
+select *
+from renamed

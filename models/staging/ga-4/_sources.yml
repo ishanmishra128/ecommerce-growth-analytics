@@ -1,0 +1,10 @@
+# Source
+version: 2
+sources:
+  - name: ga4
+    database: bigquery-public-data
+    schema: ga4_obfuscated_sample_ecommerce
+    tables:
+      - name: events
+        identifier: events_*
+        description: GA4 sample ecommerce raw event tables
