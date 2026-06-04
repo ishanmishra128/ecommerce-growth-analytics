@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_ga4__items
+    description: "One row per GA4 item nested under an event."
+
+    columns:
+      - name: event_item_key
+        description: "Unique key for each event-item record."
+        tests:
+          - not_null
+          - unique
+
+      - name: event_key
+        description: "Foreign key back to the parent event."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_ga4__events')
+                field: event_key
+
+      - name: event_name
+        description: "GA4 event name associated with the item."
+        tests:
+          - not_null
+
+      - name: user_pseudo_id
+        description: "GA4 anonymous user identifier."
+        tests:
+          - not_null
