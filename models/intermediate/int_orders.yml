@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: int_orders
+    description: >
+      Intermediate order model built from GA4 purchase events.
+      Contains one row per transaction_id and links each order back to the
+      first observed user and session associated with that purchase.
+
+    columns:
+      - name: order_key
+        description: Surrogate key for the order derived from transaction_id.
+        tests:
+          - not_null
+          - unique
+
+      - name: transaction_id
+        description: Transaction identifier from GA4 purchase events.
+        tests:
+          - not_null
+          - unique
+
+      - name: order_date
+        description: Date of the first observed purchase event for the transaction.
+
+      - name: order_ts
+        description: Timestamp of the first observed purchase event for the transaction.
+        tests:
+          - not_null
+
+      - name: user_pseudo_id
+        description: Anonymous user identifier associated with the transaction.
+
+      - name: session_key
+        description: Session key associated with the first observed purchase event.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('int_sessions')
+                field: session_key
+
+      - name: ga_session_id
+        description: GA4 session identifier associated with the first observed purchase event.
+
+      - name: purchase_event_count
+        description: Number of purchase events recorded for the transaction.
+
+      - name: distinct_purchase_event_count
+        description: Number of distinct purchase event records for the transaction.
+
+      - name: platform
+        description: Platform associated with the transaction.
+
+      - name: device_category
+        description: Device category associated with the transaction.
+
+      - name: country
+        description: Country associated with the transaction.

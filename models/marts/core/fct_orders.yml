@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: >
+      Order-grain fact table built from int_orders.
+      Contains one row per GA4 transaction_id for downstream reporting.
+
+    columns:
+      - name: order_key
+        description: Unique surrogate key for the order.
+        tests:
+          - not_null
+          - unique
+
+      - name: transaction_id
+        description: GA4 transaction identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: session_key
+        description: Session associated with the order.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('fct_sessions')
+                field: session_key

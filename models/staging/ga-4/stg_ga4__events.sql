@@ -32,6 +32,7 @@ renamed as (
             ) as string)
         ) as session_key,
 
+        -- event key logic 
         to_hex(md5(concat(
             coalesce(user_pseudo_id, ''),
             '-',
