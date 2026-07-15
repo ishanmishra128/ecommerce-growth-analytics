@@ -1,0 +1,50 @@
+version: 2
+
+models:
+  - name: int_order_items_margin
+    description: Purchase item-level intermediate model with estimated margin and gross profit.
+    columns:
+      - name: event_item_key
+        description: Unique key for the item within the event.
+        tests:
+          - not_null
+          - unique
+
+      - name: event_key
+        description: Event-level key inherited from the GA4 event.
+        tests:
+          - not_null
+
+      - name: transaction_id
+        description: Transaction identifier pulled from the matching GA4 purchase event.
+        tests:
+          - not_null
+
+      - name: order_date
+        description: Purchase date for the item row.
+        tests:
+          - not_null
+
+      - name: item_name
+        description: Raw item name from GA4.
+        tests:
+          - not_null
+
+      - name: quantity
+        description: Purchased quantity for the item row.
+        tests:
+          - not_null
+
+      - name: estimated_line_revenue
+        description: Estimated revenue for the purchase item row.
+
+      - name: estimated_line_cogs
+        description: Estimated cost of goods sold for the purchase item row.
+
+      - name: estimated_gross_profit
+        description: Estimated gross profit for the purchase item row.
+
+      - name: margin_source
+        description: Indicates whether margin came from an exact seed match or a fallback rule.
+        tests:
+          - not_null
