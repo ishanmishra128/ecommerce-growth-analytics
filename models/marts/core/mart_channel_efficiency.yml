@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: mart_channel_efficiency
+    description: Daily channel-level performance and synthetic spend model by date, source, medium, and campaign.
+    columns:
+      - name: channel_efficiency_key
+        description: Unique surrogate key for the daily channel row.
+        tests:
+          - not_null
+          - unique
+
+      - name: metric_date
+        description: Reporting date for the channel performance row.
+        tests:
+          - not_null
+
+      - name: source
+        description: Marketing source for the channel row.
+        tests:
+          - not_null
+
+      - name: medium
+        description: Marketing medium for the channel row.
+        tests:
+          - not_null
+
+      - name: campaign
+        description: Marketing campaign for the channel row.
+        tests:
+          - not_null
