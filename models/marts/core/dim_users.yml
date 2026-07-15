@@ -125,3 +125,25 @@ models:
 
       - name: add_to_cart_session_rate
         description: Share of the user's sessions that contained an add_to_cart event.
+
+      - name: lifetime_revenue
+        description: Total lifetime revenue attributed to the user.
+
+      - name: lifetime_revenue_usd
+        description: Total lifetime revenue in USD attributed to the user.
+
+      - name: lifetime_tax
+        description: Total lifetime tax associated with the user's orders.
+
+      - name: lifetime_shipping
+        description: Total lifetime shipping associated with the user's orders.
+
+      - name: lifetime_item_quantity
+        description: Total quantity of items purchased by the user across all orders.
+
+      - name: average_order_value
+        description: Lifetime revenue divided by lifetime order count.
+
+      - name: revenue_per_session
+        description: Lifetime revenue divided by lifetime session count.
+

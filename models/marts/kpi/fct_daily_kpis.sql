@@ -2,70 +2,40 @@
     materialized = 'table'
 ) }}
 
-with sessions_daily as (
-
+with session_daily as (
     select
         session_date as date_day,
-        count(distinct ga_session_id) as sessions,
+        count(distinct session_key) as sessions,
         count(distinct user_pseudo_id) as users
     from {{ ref('fct_sessions') }}
     group by 1
-
 ),
 
-orders_daily as (
-
+order_daily as (
     select
         order_date as date_day,
-        count(distinct order_key) as orders,
-        count(distinct user_pseudo_id) as purchasing_users
+        count(distinct transaction_id) as orders,
+        count(distinct user_pseudo_id) as purchasing_users,
+        sum(order_revenue) as total_revenue,
+        sum(order_revenue_usd) as total_revenue_usd
     from {{ ref('fct_orders') }}
     group by 1
-
-),
-
-date_spine as (
-
-    select date_day from sessions_daily
-    union distinct
-    select date_day from orders_daily
-
-),
-
-final as (
-
-    select
-        ds.date_day,
-
-        coalesce(sd.sessions, 0) as sessions,
-        coalesce(sd.users, 0) as users,
-
-        coalesce(od.orders, 0) as orders,
-        coalesce(od.purchasing_users, 0) as purchasing_users,
-
-        case
-            when coalesce(sd.sessions, 0) = 0 then 0
-            else 1.0 * coalesce(od.orders, 0) / sd.sessions
-        end as conversion_rate,
-
-        case
-            when coalesce(sd.users, 0) = 0 then 0
-            else 1.0 * coalesce(od.orders, 0) / sd.users
-        end as orders_per_user,
-
-        case
-            when coalesce(sd.users, 0) = 0 then 0
-            else 1.0 * coalesce(od.purchasing_users, 0) / sd.users
-        end as purchaser_rate
-
-    from date_spine ds
-    left join sessions_daily sd
-        on ds.date_day = sd.date_day
-    left join orders_daily od
-        on ds.date_day = od.date_day
-
 )
 
-select *
-from final
-order by date_day
+select
+    coalesce(s.date_day, o.date_day) as date_day,
+    coalesce(s.sessions, 0) as sessions,
+    coalesce(s.users, 0) as users,
+    coalesce(o.orders, 0) as orders,
+    coalesce(o.purchasing_users, 0) as purchasing_users,
+    coalesce(o.total_revenue, 0) as total_revenue,
+    coalesce(o.total_revenue_usd, 0) as total_revenue_usd,
+    safe_divide(coalesce(o.orders, 0), coalesce(s.sessions, 0)) as conversion_rate,
+    safe_divide(coalesce(o.orders, 0), coalesce(s.users, 0)) as orders_per_user,
+    safe_divide(coalesce(o.purchasing_users, 0), coalesce(s.users, 0)) as purchaser_rate,
+    safe_divide(coalesce(o.total_revenue, 0), coalesce(o.orders, 0)) as average_order_value,
+    safe_divide(coalesce(o.total_revenue, 0), coalesce(s.users, 0)) as revenue_per_active_user,
+    safe_divide(coalesce(o.total_revenue, 0), coalesce(s.sessions, 0)) as revenue_per_session
+from session_daily s
+full outer join order_daily o
+    on s.date_day = o.date_day
