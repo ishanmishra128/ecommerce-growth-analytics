@@ -55,6 +55,33 @@ renamed as (
             )
         ) as transaction_id,
 
+        coalesce(
+            (
+                select value.string_value
+                from unnest(event_params)
+                where key = 'source'
+            ),
+            traffic_source.source
+        ) as traffic_source,
+
+        coalesce(
+            (
+                select value.string_value
+                from unnest(event_params)
+                where key = 'medium'
+            ),
+            traffic_source.medium
+        ) as traffic_medium,
+
+        coalesce(
+            (
+                select value.string_value
+                from unnest(event_params)
+                where key = 'campaign'
+            ),
+            traffic_source.name
+        ) as traffic_campaign,
+
         ecommerce.purchase_revenue as purchase_revenue,
         ecommerce.purchase_revenue_in_usd as purchase_revenue_in_usd,
         ecommerce.tax_value as tax_value,

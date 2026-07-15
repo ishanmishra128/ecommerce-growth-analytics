@@ -17,6 +17,9 @@ select
     order_tax,
     order_shipping,
     total_item_quantity,
+    order_source,
+    order_medium,
+    order_campaign,
     platform,
     device_category,
     country

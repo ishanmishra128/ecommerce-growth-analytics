@@ -1,31 +1,28 @@
 version: 2
-
 models:
   - name: fct_sessions
-    description: >
-      Session-grain fact table built from int_sessions.
-      Contains one row per GA4 session with session timing, event counts,
-      funnel activity, and core session attributes used for downstream reporting.
-
+    description: Session-level fact table with one row per session_key.
     columns:
       - name: session_key
-        description: Unique surrogate key for the session.
+        description: Unique session identifier.
         tests:
           - not_null
           - unique
 
       - name: user_pseudo_id
-        description: Anonymous user identifier from GA4.
+        description: Anonymous GA4 user identifier.
         tests:
           - not_null
 
       - name: ga_session_id
-        description: GA4 session identifier.
+        description: GA4 session identifier scoped to user.
         tests:
           - not_null
 
       - name: session_date
-        description: Calendar date of the session.
+        description: Date of the session.
+        tests:
+          - not_null
 
       - name: session_start_ts
         description: Timestamp of the first event in the session.
@@ -36,54 +33,3 @@ models:
         description: Timestamp of the last event in the session.
         tests:
           - not_null
-
-      - name: session_duration_seconds
-        description: Duration of the session in seconds.
-
-      - name: event_count
-        description: Total number of events in the session.
-
-      - name: distinct_event_count
-        description: Number of distinct event names observed in the session.
-
-      - name: session_start_count
-        description: Count of session_start events recorded in the session.
-
-      - name: page_view_count
-        description: Count of page_view events in the session.
-
-      - name: product_view_count
-        description: Count of product view events in the session.
-
-      - name: add_to_cart_count
-        description: Count of add_to_cart events in the session.
-
-      - name: begin_checkout_count
-        description: Count of begin_checkout events in the session.
-
-      - name: purchase_count
-        description: Count of purchase events in the session.
-
-      - name: transaction_count
-        description: Count of transaction events in the session.
-
-      - name: has_purchase
-        description: True when the session contains at least one purchase event.
-
-      - name: has_transaction
-        description: True when the session contains at least one transaction event.
-
-      - name: first_event_name
-        description: First event recorded in the session.
-
-      - name: last_event_name
-        description: Last event recorded in the session.
-
-      - name: platform
-        description: Platform associated with the session.
-
-      - name: device_category
-        description: Device category associated with the session.
-
-      - name: country
-        description: Country associated with the session.

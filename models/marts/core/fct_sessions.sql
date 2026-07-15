@@ -23,6 +23,9 @@ select
     has_transaction,
     first_event_name,
     last_event_name,
+    session_source,
+    session_medium,
+    session_campaign,
     platform,
     device_category,
     country
