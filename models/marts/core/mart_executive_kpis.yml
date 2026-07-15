@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: mart_executive_kpis
+    description: Executive-ready daily KPI mart with day-over-day comparisons and 7-day rolling averages.
+    columns:
+      - name: executive_kpi_key
+        description: Unique surrogate key for the executive KPI day.
+        tests:
+          - not_null
+          - unique
+
+      - name: date_day
+        description: Reporting day for the KPI row.
+        tests:
+          - not_null
+
+      - name: sessions
+        description: Total sessions for the day.
+        tests:
+          - not_null
+
+      - name: users
+        description: Total active users for the day.
+        tests:
+          - not_null
+
+      - name: orders
+        description: Total orders for the day.
+        tests:
+          - not_null
+
+      - name: total_revenue
+        description: Total revenue for the day.
+
+      - name: conversion_rate
+        description: Orders divided by sessions.
+
+      - name: average_order_value
+        description: Revenue divided by orders.
+
+      - name: revenue_per_active_user
+        description: Revenue divided by users.
+
+      - name: revenue_per_session
+        description: Revenue divided by sessions.
