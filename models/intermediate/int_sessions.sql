@@ -31,7 +31,7 @@ session_rollup as (
         user_pseudo_id,
         ga_session_id,
 
-        min(event_date) as session_date,
+        date(min(event_timestamp)) as session_date,
         min(event_timestamp) as session_start_ts,
         max(event_timestamp) as session_end_ts,
         timestamp_diff(max(event_timestamp), min(event_timestamp), second) as session_duration_seconds,
@@ -40,10 +40,10 @@ session_rollup as (
         count(distinct event_key) as distinct_event_count,
 
         countif(event_name = 'session_start') as session_start_count,
-        countif(event_name = 'page_view') as page_view_count,
-        countif(event_name = 'view_item') as product_view_count,
-        countif(event_name = 'add_to_cart') as add_to_cart_count,
-        countif(event_name = 'begin_checkout') as begin_checkout_count,
+        countif(event_name = 'page_view') > 0 as has_page_view,
+        countif(event_name = 'view_item') > 0 as has_product_view,
+        countif(event_name = 'add_to_cart') > 0 as has_add_to_cart,
+        countif(event_name = 'begin_checkout') > 0 as has_begin_checkout,
         countif(event_name = 'purchase') as purchase_count,
 
         count(distinct case when transaction_id is not null then transaction_id end) as transaction_count,

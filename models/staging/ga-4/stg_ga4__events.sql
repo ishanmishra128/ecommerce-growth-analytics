@@ -1,19 +1,15 @@
 {{ config(materialized='view') }}
 
 with source as (
-
     select *
     from {{ source('ga4', 'events') }}
-
 ),
 
 renamed as (
-
     select
         parse_date('%Y%m%d', event_date) as event_date,
         timestamp_micros(event_timestamp) as event_timestamp,
         event_name,
-
         user_pseudo_id,
 
         cast((
@@ -32,7 +28,6 @@ renamed as (
             ) as string)
         ) as session_key,
 
-        -- event key logic 
         to_hex(md5(concat(
             coalesce(user_pseudo_id, ''),
             '-',
@@ -51,14 +46,22 @@ renamed as (
         device.category as device_category,
         geo.country as country,
 
-        (
-            select value.string_value
-            from unnest(event_params)
-            where key = 'transaction_id'
-        ) as transaction_id
+        coalesce(
+            ecommerce.transaction_id,
+            (
+                select value.string_value
+                from unnest(event_params)
+                where key = 'transaction_id'
+            )
+        ) as transaction_id,
+
+        ecommerce.purchase_revenue as purchase_revenue,
+        ecommerce.purchase_revenue_in_usd as purchase_revenue_in_usd,
+        ecommerce.tax_value as tax_value,
+        ecommerce.shipping_value as shipping_value,
+        ecommerce.total_item_quantity as total_item_quantity
 
     from source
-
 )
 
 select *
