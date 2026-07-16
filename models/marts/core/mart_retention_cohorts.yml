@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: mart_retention_cohorts
+    description: Monthly first-purchase retention cohort mart with repeat purchase and revenue-share metrics.
+    columns:
+      - name: retention_cohort_key
+        description: Unique surrogate key for the retention cohort row.
+        tests:
+          - not_null
+          - unique
+
+      - name: cohort_month
+        description: First purchase cohort month.
+        tests:
+          - not_null
+
+      - name: cohort_users
+        description: Number of users in the first-purchase cohort.
+        tests:
+          - not_null
+
+      - name: repeat_purchasers
+        description: Users in the cohort with more than one order.
+        tests:
+          - not_null
+
+      - name: repeat_30d_users
+        description: Users in the cohort who made a second purchase within 30 days.
+        tests:
+          - not_null
+
+      - name: repeat_60d_users
+        description: Users in the cohort who made a second purchase within 60 days.
+        tests:
+          - not_null
+
+      - name: repeat_90d_users
+        description: Users in the cohort who made a second purchase within 90 days.
+        tests:
+          - not_null
+
+      - name: repeat_purchase_rate
+        description: Share of cohort users who became repeat purchasers.
+
+      - name: repeat_purchase_rate_30d
+        description: Share of cohort users who repeated within 30 days.
+
+      - name: repeat_purchase_rate_60d
+        description: Share of cohort users who repeated within 60 days.
+
+      - name: repeat_purchase_rate_90d
+        description: Share of cohort users who repeated within 90 days.
+
+      - name: revenue_share_from_returning_customers
+        description: Share of cohort lifetime revenue coming from repeat purchasers.
