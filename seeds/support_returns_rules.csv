@@ -1,0 +1,6 @@
+resolved_product_category,expected_return_rate,expected_support_case_rate,avg_refund_pct_if_returned,avg_support_cost_per_order,avg_resolution_days,risk_tier
+apparel,0.14,0.09,0.92,2.75,6,medium
+accessories,0.06,0.04,0.88,1.10,3,low
+lifestyle,0.03,0.02,0.95,6.50,8,medium
+clearance,0.18,0.11,0.98,3.25,7,high
+other,0.08,0.05,0.90,1.80,4,medium
