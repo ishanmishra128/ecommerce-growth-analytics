@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: mart_product_performance
+    description: Product-level profitability mart with estimated gross profit and margin metrics.
+    columns:
+      - name: product_performance_key
+        description: Unique surrogate key for the product performance row.
+        tests:
+          - not_null
+          - unique
+
+      - name: item_name
+        description: Product item name.
+        tests:
+          - not_null
+
+      - name: resolved_product_category
+        description: Resolved product category used for margin analysis.
+        tests:
+          - not_null
+
+      - name: order_count
+        description: Number of distinct orders containing the product.
+        tests:
+          - not_null
+
+      - name: total_quantity_sold
+        description: Total quantity sold for the product.
+        tests:
+          - not_null
+
+      - name: total_revenue
+        description: Estimated total revenue for the product.
+
+      - name: total_cogs
+        description: Estimated total cost of goods sold for the product.
+
+      - name: total_gross_profit
+        description: Estimated total gross profit for the product.
+
+      - name: gross_margin_pct
+        description: Estimated gross margin percentage for the product.
+
+      - name: exact_margin_match_rate
+        description: Share of purchase item rows matched exactly to the synthetic margin seed.
