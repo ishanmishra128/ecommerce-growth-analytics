@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: mart_product_profit_quality
+    description: Product-level profitability mart adjusted with synthetic returns and support cost assumptions.
+    columns:
+      - name: product_profit_quality_key
+        description: Unique surrogate key for the product profit/quality row.
+        tests:
+          - not_null
+          - unique
+
+      - name: item_name
+        description: Product item name.
+        tests:
+          - not_null
+
+      - name: resolved_product_category
+        description: Product category used to apply support and return assumptions.
+        tests:
+          - not_null
+
+      - name: total_revenue
+        description: Estimated product revenue.
+
+      - name: total_gross_profit
+        description: Estimated gross profit before support and returns adjustments.
+
+      - name: estimated_refund_value
+        description: Estimated revenue refunded based on synthetic return assumptions.
+
+      - name: estimated_support_cost
+        description: Estimated support cost based on synthetic support assumptions.
+
+      - name: estimated_net_contribution_after_returns_support
+        description: Estimated contribution after returns and support costs.

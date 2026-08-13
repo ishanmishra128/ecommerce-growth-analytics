@@ -1,0 +1,98 @@
+version: 2
+
+models:
+  - name: fct_daily_performance
+    description: >
+      Daily performance mart at the grain of metric_date, platform,
+      device_category, and country. Combines session activity from fct_sessions
+      with order activity from fct_orders to support KPI reporting and funnel analysis.
+
+    columns:
+      - name: daily_performance_key
+        description: Surrogate key for the daily performance grain.
+        tests:
+          - not_null
+          - unique
+
+      - name: metric_date
+        description: Calendar date for the aggregated metrics.
+        tests:
+          - not_null
+
+      - name: platform
+        description: Platform associated with the metric grain.
+        tests:
+          - not_null
+
+      - name: device_category
+        description: Device category associated with the metric grain.
+        tests:
+          - not_null
+
+      - name: country
+        description: Country associated with the metric grain.
+        tests:
+          - not_null
+
+      - name: session_count
+        description: Total number of sessions for the day and dimension combination.
+
+      - name: user_count
+        description: Distinct number of users with sessions for the day and dimension combination.
+
+      - name: page_view_sessions
+        description: Number of sessions containing at least one page view.
+
+      - name: product_view_sessions
+        description: Number of sessions containing at least one product view.
+
+      - name: add_to_cart_sessions
+        description: Number of sessions containing at least one add_to_cart event.
+
+      - name: begin_checkout_sessions
+        description: Number of sessions containing at least one begin_checkout event.
+
+      - name: purchase_sessions
+        description: Number of sessions containing at least one purchase event.
+
+      - name: transaction_sessions
+        description: Number of sessions containing at least one transaction event.
+
+      - name: total_events
+        description: Total number of events across all sessions in the grain.
+
+      - name: total_session_duration_seconds
+        description: Total number of session duration seconds across all sessions in the grain.
+
+      - name: avg_session_duration_seconds
+        description: Average session duration in seconds for the grain.
+
+      - name: order_count
+        description: Number of orders recorded for the grain.
+
+      - name: ordering_user_count
+        description: Distinct number of users who placed orders in the grain.
+
+      - name: page_view_session_rate
+        description: Share of sessions that included a page view.
+
+      - name: product_view_session_rate
+        description: Share of sessions that included a product view.
+
+      - name: add_to_cart_session_rate
+        description: Share of sessions that included an add_to_cart event.
+
+      - name: begin_checkout_session_rate
+        description: Share of sessions that included a begin_checkout event.
+
+      - name: purchase_session_rate
+        description: Share of sessions that included a purchase event.
+
+      - name: transaction_session_rate
+        description: Share of sessions that included a transaction event.
+
+      - name: orders_per_session
+        description: Number of orders divided by session count for the grain.
+
+      - name: ordering_user_rate
+        description: Number of ordering users divided by session users for the grain.

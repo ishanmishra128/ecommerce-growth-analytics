@@ -1,0 +1,89 @@
+version: 2
+
+models:
+  - name: int_sessions
+    description: >
+      Intermediate session-grain model built from stg_ga4__events.
+      Contains one row per session_key with session timing, funnel event counts,
+      transaction indicators, and core session attributes for funnel and conversion analysis.
+
+    columns:
+      - name: session_key
+        description: Session-level surrogate key carried from stg_ga4__events.
+        tests:
+          - not_null
+          - unique
+
+      - name: user_pseudo_id
+        description: Anonymous GA4 user identifier associated with the session.
+        tests:
+          - not_null
+
+      - name: ga_session_id
+        description: GA4 session identifier, unique only in combination with user_pseudo_id.
+        tests:
+          - not_null
+
+      - name: session_date
+        description: Earliest event_date associated with the session.
+
+      - name: session_start_ts
+        description: Timestamp of the first event in the session.
+        tests:
+          - not_null
+
+      - name: session_end_ts
+        description: Timestamp of the last event in the session.
+        tests:
+          - not_null
+
+      - name: session_duration_seconds
+        description: Session duration in seconds, calculated from the first and last event timestamps.
+
+      - name: event_count
+        description: Total number of rows/events in the session.
+
+      - name: distinct_event_count
+        description: Count of distinct event_key values in the session, useful for event duplication checks.
+
+      - name: session_start_count
+        description: Count of session_start events in the session.
+
+      - name: page_view_count
+        description: Count of page_view events in the session.
+
+      - name: product_view_count
+        description: Count of view_item events in the session.
+
+      - name: add_to_cart_count
+        description: Count of add_to_cart events in the session.
+
+      - name: begin_checkout_count
+        description: Count of begin_checkout events in the session.
+
+      - name: purchase_count
+        description: Count of purchase events in the session.
+
+      - name: transaction_count
+        description: Count of distinct transaction_id values observed in the session.
+
+      - name: has_purchase
+        description: Boolean flag indicating whether the session contained at least one purchase event.
+
+      - name: has_transaction
+        description: Boolean flag indicating whether the session contained at least one non-null transaction_id.
+
+      - name: first_event_name
+        description: Name of the first event observed in the session.
+
+      - name: last_event_name
+        description: Name of the last event observed in the session.
+
+      - name: platform
+        description: Platform associated with the session, taken from the earliest non-null event.
+
+      - name: device_category
+        description: Device category associated with the session, taken from the earliest non-null event.
+
+      - name: country
+        description: Country associated with the session, taken from the earliest non-null event.

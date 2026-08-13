@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  - name: fct_daily_kpis
+    description: Daily KPI mart derived from session and order facts. Provides core business performance metrics at the day grain for reporting and trend analysis.
+
+    columns:
+      - name: date_day
+        description: Calendar date for the KPI row.
+        tests:
+          - not_null
+          - unique
+
+      - name: sessions
+        description: Distinct count of sessions recorded on the day.
+        tests:
+          - not_null
+
+      - name: users
+        description: Distinct count of users with a session on the day.
+        tests:
+          - not_null
+
+      - name: orders
+        description: Distinct count of orders recorded on the day.
+        tests:
+          - not_null
+
+      - name: purchasing_users
+        description: Distinct count of users who placed an order on the day.
+        tests:
+          - not_null
+
+      - name: conversion_rate
+        description: Orders divided by sessions for the day.
+        tests:
+          - not_null
+
+      - name: orders_per_user
+        description: Orders divided by users for the day.
+        tests:
+          - not_null
+
+      - name: purchaser_rate
+        description: Purchasing users divided by users for the day.
+        tests:
+          - not_null

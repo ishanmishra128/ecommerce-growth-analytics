@@ -1,0 +1,65 @@
+version: 2
+
+models:
+  - name: mart_funnel_performance
+    description: Daily funnel performance mart by date, channel, platform, device category, and country.
+    columns:
+      - name: funnel_performance_key
+        description: Unique surrogate key for the funnel row.
+        tests:
+          - not_null
+          - unique
+
+      - name: metric_date
+        description: Reporting date for the funnel row.
+        tests:
+          - not_null
+
+      - name: source
+        description: Session/order source.
+        tests:
+          - not_null
+
+      - name: medium
+        description: Session/order medium.
+        tests:
+          - not_null
+
+      - name: campaign
+        description: Session/order campaign.
+        tests:
+          - not_null
+
+      - name: sessions
+        description: Total sessions in the row.
+        tests:
+          - not_null
+
+      - name: product_view_sessions
+        description: Sessions with at least one product view.
+        tests:
+          - not_null
+
+      - name: add_to_cart_sessions
+        description: Sessions with at least one add-to-cart.
+        tests:
+          - not_null
+
+      - name: begin_checkout_sessions
+        description: Sessions with at least one begin-checkout.
+        tests:
+          - not_null
+
+      - name: purchase_sessions
+        description: Sessions with at least one purchase.
+        tests:
+          - not_null
+
+      - name: cart_abandonment_rate
+        description: Share of add-to-cart sessions that did not reach begin checkout.
+
+      - name: checkout_abandonment_rate
+        description: Share of begin-checkout sessions that did not purchase.
+
+      - name: session_to_purchase_rate
+        description: Share of sessions that converted to a purchase session.

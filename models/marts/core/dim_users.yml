@@ -1,0 +1,149 @@
+version: 2
+
+models:
+  - name: dim_users
+    description: >
+      User-grain dimension built from session and order history.
+      Contains one row per GA4 user_pseudo_id with lifecycle, engagement,
+      funnel, and order summary metrics.
+
+    columns:
+      - name: user_pseudo_id
+        description: Anonymous GA4 user identifier.
+        tests:
+          - not_null
+          - unique
+
+      - name: first_session_date
+        description: Date of the user's first observed session.
+
+      - name: last_session_date
+        description: Date of the user's most recent observed session.
+
+      - name: first_session_ts
+        description: Timestamp of the user's first observed session.
+        tests:
+          - not_null
+
+      - name: last_session_ts
+        description: Timestamp of the user's most recent observed session.
+        tests:
+          - not_null
+
+      - name: user_lifetime_days
+        description: Number of days between first and last observed session, inclusive.
+
+      - name: lifetime_session_count
+        description: Total number of sessions observed for the user.
+
+      - name: lifetime_event_count
+        description: Total number of events observed across all sessions for the user.
+
+      - name: lifetime_session_duration_seconds
+        description: Total session duration in seconds across all sessions for the user.
+
+      - name: lifetime_page_view_count
+        description: Total number of page_view events across all sessions for the user.
+
+      - name: lifetime_product_view_count
+        description: Total number of product view events across all sessions for the user.
+
+      - name: lifetime_add_to_cart_count
+        description: Total number of add_to_cart events across all sessions for the user.
+
+      - name: lifetime_begin_checkout_count
+        description: Total number of begin_checkout events across all sessions for the user.
+
+      - name: lifetime_purchase_count
+        description: Total number of purchase events across all sessions for the user.
+
+      - name: lifetime_transaction_count
+        description: Total number of transaction events across all sessions for the user.
+
+      - name: page_view_session_count
+        description: Number of sessions for the user containing at least one page view.
+
+      - name: product_view_session_count
+        description: Number of sessions for the user containing at least one product view.
+
+      - name: add_to_cart_session_count
+        description: Number of sessions for the user containing at least one add_to_cart event.
+
+      - name: begin_checkout_session_count
+        description: Number of sessions for the user containing at least one begin_checkout event.
+
+      - name: purchase_session_count
+        description: Number of sessions for the user containing at least one purchase event.
+
+      - name: transaction_session_count
+        description: Number of sessions for the user containing at least one transaction event.
+
+      - name: lifetime_order_count
+        description: Total number of orders associated with the user.
+
+      - name: first_order_date
+        description: Date of the user's first observed order.
+
+      - name: last_order_date
+        description: Date of the user's most recent observed order.
+
+      - name: first_order_ts
+        description: Timestamp of the user's first observed order.
+
+      - name: last_order_ts
+        description: Timestamp of the user's most recent observed order.
+
+      - name: first_platform
+        description: Platform observed on the user's first session.
+
+      - name: first_device_category
+        description: Device category observed on the user's first session.
+
+      - name: first_country
+        description: Country observed on the user's first session.
+
+      - name: latest_platform
+        description: Platform observed on the user's most recent session.
+
+      - name: latest_device_category
+        description: Device category observed on the user's most recent session.
+
+      - name: latest_country
+        description: Country observed on the user's most recent session.
+
+      - name: is_customer
+        description: True when the user has at least one order.
+
+      - name: orders_per_session
+        description: Lifetime orders divided by lifetime sessions.
+
+      - name: purchase_session_rate
+        description: Share of the user's sessions that contained a purchase.
+
+      - name: begin_checkout_session_rate
+        description: Share of the user's sessions that contained a begin_checkout event.
+
+      - name: add_to_cart_session_rate
+        description: Share of the user's sessions that contained an add_to_cart event.
+
+      - name: lifetime_revenue
+        description: Total lifetime revenue attributed to the user.
+
+      - name: lifetime_revenue_usd
+        description: Total lifetime revenue in USD attributed to the user.
+
+      - name: lifetime_tax
+        description: Total lifetime tax associated with the user's orders.
+
+      - name: lifetime_shipping
+        description: Total lifetime shipping associated with the user's orders.
+
+      - name: lifetime_item_quantity
+        description: Total quantity of items purchased by the user across all orders.
+
+      - name: average_order_value
+        description: Lifetime revenue divided by lifetime order count.
+
+      - name: revenue_per_session
+        description: Lifetime revenue divided by lifetime session count.
+
