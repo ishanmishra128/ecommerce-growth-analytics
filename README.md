@@ -1,6 +1,6 @@
 # Unclogging the Funnel — Driving Conversion, Retention, and Revenue: An End-to-End E-commerce Analytics Case Study
 
-[Dashboard Screenshot](images/Ecom Funnel Dashboard Preview.png)
+![Dashboard Screenshot](images/Ecom Funnel Dashboard Preview.png)
 
 ---
 
