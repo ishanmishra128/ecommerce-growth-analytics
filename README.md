@@ -1,234 +1,167 @@
-# Unclogging the Funnel - Driving Conversion, Retention, and Revenue: An End-to-End E-commerce Analytics Case Study
+# Unclogging the Funnel — Driving Conversion, Retention, and Revenue: An End-to-End E-commerce Analytics Case Study
+
+![Dashboard Screenshot](images/Ecom Funnel Dashboard Preview.png)
+
+---
 
 ## Project Summary
 
-A mid-sized retailer with a growing e-commerce channel has been investing in digital acquisition to increase online revenue. Although traffic and engagement have grown, revenue has not kept pace. This project investigates where the customer journey is breaking down, which acquisition channels drive high-value users, and what behaviors are associated with repeat purchase. The goal is to build an end-to-end analytics workflow that transforms event-level behavioral data into executive-ready business recommendations.
+A mid-sized retailer with a growing e-commerce channel has been investing in digital acquisition to increase online revenue. Although traffic and engagement have grown, revenue has not kept pace. This project investigates where the customer journey is breaking down, which acquisition channels drive high-value users, and what behaviors are associated with repeat purchase — transforming event-level behavioral data into an executive-ready analytics dashboard and set of business recommendations.
 
 ## Business Problem
 
-Leadership is concerned that increased top-of-funnel activity is not translating into proportional revenue growth. The business needs to understand whether the problem is driven by weak acquisition quality, poor on-site conversion, low repeat purchase behavior, or a combination of all three. This project is designed to identify the highest-impact opportunities to improve conversion, retention, and growth efficiency.
-
-## Stakeholders
-
-The primary stakeholders for this project are:
-
-- **VP of Product**, who cares about user journey friction, on-site behavior, and conversion opportunities
-- **Director of E-commerce**, who cares about revenue performance, merchandising outcomes, and digital channel health
-- **Director of Growth Marketing**, who cares about acquisition quality, channel efficiency, and downstream commercial impact
-
-A secondary stakeholder is the **Director of Finance**, who cares about growth efficiency, return on investment, and whether e-commerce investments are generating sustainable  returns.
+Leadership is concerned that increased top-of-funnel activity is not translating into proportional revenue growth. This project identifies whether the problem is driven by weak acquisition quality, poor on-site conversion, low repeat purchase behavior, or a combination — and quantifies the highest-impact opportunity for the business to act on first.
 
 ## Core Business Question
 
 **How should leadership prioritize improvements across acquisition, on-site conversion, and retention to drive revenue growth more efficiently?**
 
-## Project Objectives
+## Stakeholders
 
-This project is designed to:
+- **VP of Product** — user journey friction, on-site behavior, conversion opportunities
+- **Director of E-commerce** — revenue performance, merchandising outcomes, digital channel health
+- **Director of Growth Marketing** — acquisition quality, channel efficiency, downstream commercial impact
+- **Director of Finance** *(secondary)* — growth efficiency, ROI, sustainability of e-commerce investment
 
-- measure the end-to-end customer funnel from session start through purchase
-- identify where and how users drop off in the purchase journey
-- evaluate channel quality using conversion, revenue, and spend-based efficiency metrics
-- analyze repeat purchase behavior and customer retention patterns
-- create a business-ready data model in the cloud using modern analytics tooling
-- deliver a dashboard and executive recommendations that support decision-making
+---
 
-## Scope
+## Key Findings
 
-This project analyzes the digital customer journey from traffic acquisition through purchase, with a focus on funnel performance, repeat purchase behavior, channel quality, and revenue contribution. It includes a cloud-based analytics workflow, event-level data transformation into business-ready models, KPI design, a stakeholder-facing dashboard, and business recommendations supported by SQL, Python, and BI outputs.
+| Area | Finding |
+|---|---|
+| **Funnel** | **142,407 sessions (77.2%)** drop off before ever viewing a product — by far the largest leak in the funnel, dwarfing losses at cart or checkout |
+| **Channel Quality** | **Merch Store Referral** converts at **4.8%** on just 19,234 sessions — several times the rate of Google, the largest-volume channel, which converts at under 1% |
+| **Retention** | Repeat customers are **13.9%** of buyers but generate **24.9%** of revenue — nearly double their proportional share |
 
-To make the analysis more realistic, the project also incorporates synthetic data tables such as marketing spend, product margin estimates, and support or returns signals.
+**Bottom line:** the business's biggest revenue opportunity isn't acquiring more traffic or fixing checkout — it's improving what happens the moment a session lands, reallocating acquisition spend toward already-proven high-quality channels, and protecting the small but disproportionately valuable repeat-customer base.
 
-This project does **not** attempt to build a recommendation engine or an ML model. Instead, it focuses on descriptive and diagnostic analytics, metric design, and decision support.
+See the full [Executive Summary](presentation/executive_summary.md) for the complete recommendation memo.
 
-## Data Sources
+---
 
-This project uses the following data sources:
+## Live Dashboard
 
-- **GA4 public sample e-commerce dataset in BigQuery** as the primary source of event-level digital behavior
-- **Synthetic channel spend table** to support acquisition efficiency analysis
-- **Synthetic product margin table** to estimate gross profit and margin contribution
-- **Synthetic support / returns table** to introduce operational and customer experience guardrails
+The dashboard is built in Tableau Desktop Public version, but not published to Tableau Public for interactive viewing. Instead, the workbooks in the dashboard folder are best to view.
 
-## Architecture Overview
+The dashboard includes a shared date-range control (Nov 1, 2020 – Jan 31, 2021) that filters the KPI scorecard, funnel view, channel analysis, and retention metrics simultaneously.
 
-The analytics workflow follows this structure:
+---
 
-**GA4 event data + synthetic enrichment tables -> staging models in BigQuery -> intermediate behavioral models -> business marts for funnel, retention, and channel efficiency -> Tableau dashboard + executive memo**
+## Dashboard Structure
 
-The stack used in this project includes:
+- **Executive KPI Scorecard** — Revenue, Sessions, Session-to-Purchase Conversion Rate, Revenue per Active User, Average Order Value
+- **Funnel View** — five-stage conversion funnel (Session Start → Product View → Add to Cart → Begin Checkout → Purchase) with dynamic step-over-step conversion rates and an automatically updating drop-off annotation
+- **Channel Efficiency View** — dual-axis chart comparing session volume against conversion rate by acquisition channel, isolating high-quality/low-volume channels from high-volume/low-quality ones
+- **Retention Snapshot** — repeat purchase rate and revenue share from returning customers, plus a new-vs-returning revenue split
+- **Key Insights Panel** — decision-oriented takeaways (Convert / Optimize / Retain) summarizing what leadership should prioritize
+- **Global Date Range Filter** — shared across all sections despite the dashboard using multiple independent data sources (see Technical Approach)
 
-- **BigQuery** for cloud data warehousing
-- **dbt** for SQL-based transformations and layered modeling
-- **Python** for data quality validation, cohort analysis, and scenario testing
-- **Tableau** for dashboarding and business communication
-- **GitHub** for documentation and version control
+---
 
-## Core Data Models
+## Technical Approach
 
-The project highlights the following 8 core models:
+### Architecture
+\```
+GA4 event data + synthetic enrichment tables
+        ↓
+  Staging models (BigQuery)
+        ↓
+  Intermediate behavioral models
+        ↓
+  Business marts (funnel, retention, channel efficiency, executive KPIs)
+        ↓
+  Tableau dashboard + executive memo
+\```
 
-- **int_sessions**
-- **int_funnel_events**
-- **int_orders**
-- **int_user_activity**
-- **mart_funnel_performance**
-- **mart_retention_cohorts**
-- **mart_channel_efficiency**
-- **mart_executive_kpis**
+### Stack
+- **BigQuery** — cloud data warehousing
+- **dbt** — SQL-based transformation, layered staging → intermediate → mart modeling
+- **Tableau** — dashboard development, BigQuery Custom SQL connections, parameter-driven filtering
+- **GitHub** — documentation and version control
 
-Supporting enrichment models in the repo:
+### Core Data Models
+- `int_sessions`, `int_funnel_events`, `int_orders`, `int_user_activity`
+- `mart_funnel_performance`, `mart_retention_cohorts`, `mart_channel_efficiency`, `mart_executive_kpis`
 
-- **stg_ga4_events**
-- **stg_channel_spend**
-- **stg_product_margin**
-- **stg_support_returns**
-- **mart_product_performance**
+### Supporting Enrichment Models
+- `stg_ga4_events`, `stg_channel_spend`, `stg_product_margin`, `stg_support_returns`, `mart_product_performance`
+
+### Notable Technical Decisions
+
+**Multi-source dashboard without relational joins.** Several marts don't share a reliable join key, and some (like the executive KPI mart) are single/low-row-count summary tables that would fan-out incorrectly if joined to higher-grain tables. Rather than forcing a join or blend, each mart was connected as an independent Tableau data source.
+
+**Cross-source global date filter via shared parameters.** Because Tableau's native filter propagation doesn't cross unrelated data sources, the dashboard uses two shared parameters (`pStartDate`, `pEndDate`). Each data source has its own calculated `Date Filter` field referencing the same parameters, letting one date-range control filter the entire dashboard despite the underlying source separation.
+
+**BigQuery Custom SQL for chart-ready reshaping.** Several visuals (the funnel stage chart, the channel volume/quality chart) required data in a different shape than the marts naturally provide. These were built as Custom SQL connections directly against BigQuery, including CTE-based logic to correctly classify long-tail acquisition channels by lifetime volume rather than per-day volume.
+
+**Live-computed rates over pre-aggregated ratios.** Conversion and drop-off rates are computed as live Tableau calculations (aggregate calcs or table calculations) rather than pre-computed percentage columns in SQL — pre-computed ratios summed incorrectly once a date dimension was introduced for filtering, so all rate logic was moved to compute from correctly-aggregated raw counts at query time.
+
+---
 
 ## Metric Framework
 
-### North-Star Metric
+**North-Star Metric:** Revenue per Active User (RPAU) = Total Revenue / Distinct Active Users in Period — chosen because it captures the combined effect of acquisition quality, on-site conversion, repeat purchase behavior, and monetization in a single number.
 
-The north-star metric for this project is:
+**Executive KPIs:** Revenue, Purchase Conversion Rate, Average Order Value, Repeat Purchase Rate, Estimated Gross Profit, ROAS/CAC Proxy
 
-**Revenue per Active User (RPAU)**
+**Funnel Metrics:** Session-to-Product View Rate, Product View-to-Add to Cart Rate, Add to Cart-to-Begin Checkout Rate, Begin Checkout-to-Purchase Rate, Overall Session-to-Purchase Conversion Rate, Cart Abandonment Rate, Checkout Abandonment Rate
 
-**Formula:**  
-Total Revenue / Distinct Active Users in Period
+**Retention Metrics:** Repeat Purchase Rate, Average Days to Second Purchase, Revenue Share from Returning Customers, Cohort Retention by First Purchase Period
 
-I chose this metric because it reflects whether the business is converting traffic into value. It captures the combined effects of acquisition quality, on-site conversion, repeat purchase behavior, and monetization.
+---
 
-### Executive KPI Scorecard
+## Data Sources
 
-Other metrics include:
+- **GA4 public sample e-commerce dataset** (BigQuery) — primary source of event-level digital behavior
+- **Synthetic channel spend table** — supports acquisition efficiency analysis
+- **Synthetic product margin table** — estimates gross profit and margin contribution
+- **Synthetic support/returns table** — introduces operational and customer experience guardrails
 
-- **Revenue**
-- **Purchase Conversion Rate**
-- **Average Order Value**
-- **Repeat Purchase Rate**
-- **Estimated Gross Profit**
-- **ROAS Proxy** or **CAC Proxy**
+---
 
-### Funnel Metrics
+## Known Limitations
 
-The funnel is:
+- Synthetic paid-channel spend data (Google CPC, Facebook remarketing, email promo) did not reliably join to real session/order data at the row level; ROAS for these channels is flagged as a data gap rather than shown as a misleading $0
+- The long-tail channel bucketing threshold is calibrated against the full 3-month period; very short date-range selections may shift which channels appear in the "long tail" grouping
+- One synthetic product margin row contained a negative gross profit due to a bad unit-cost value in the synthetic enrichment data — a known artifact of the synthetic tables, not a real business finding
 
-- **Session Start**
-- **Product View**
-- **Add to Cart**
-- **Begin Checkout**
-- **Purchase**
-
-The funnel metrics include:
-
-- **Session-to-Product View Rate**
-- **Product View-to-Add to Cart Rate**
-- **Add to Cart-to-Begin Checkout Rate**
-- **Begin Checkout-to-Purchase Rate**
-- **Overall Session-to-Purchase Conversion Rate**
-- **Cart Abandonment Rate**
-- **Checkout Abandonment Rate**
-
-### Retention Metrics
-
-The retention metrics are:
-
-- **30-day Repeat Purchase Rate**
-- **60-day Repeat Purchase Rate**
-- **90-day Repeat Purchase Rate**
-- **Average Days to Second Purchase**
-- **Purchase Frequency per Customer**
-- **Revenue Share from Returning Customers**
-- **Cohort Retention by First Purchase Period**
-
-## Dashboard Overview
-
-The Tableau dashboard is designed for executive and stakeholder use. It will include:
-
-- an **executive KPI scorecard**
-- a **conversion funnel view**
-- a **channel efficiency analysis**
-- a **retention and cohort analysis**
-- a **product or category performance view**
-- filters for channel, device, time period, and product category
-
-The goal of the dashboard is not just to display performance, but to support prioritization and decision-making.
-
-## Key Business Questions This Project Answers
-
-This project will answer questions such as:
-
-- Where is the biggest drop-off in the digital purchase journey?
-- Which acquisition channels bring high-intent and high-value customers?
-- Are increases in traffic translating into efficient revenue growth?
-- What behaviors are associated with repeat purchase?
-- Which device types, product categories, or channels underperform?
-- What should leadership prioritize to improve conversion, retention, and profitability?
-
-## Expected Deliverables
-
-This repository will contain:
-
-- SQL / dbt models for staging, intermediate transformations, and business marts
-- Python notebooks for validation, cohort analysis, and scenario testing
-- synthetic enrichment tables used to support realistic business analysis
-- a Tableau dashboard for stakeholder consumption
-- architecture and metric documentation
-- an executive summary and recommendation memo
+---
 
 ## Repository Structure
 
-A planned repository structure for this project is:
+\```
+README.md
+docs/                   → architecture notes, metric dictionary, dashboard screenshots
+seeds/                  → synthetic spend, margin, and support/returns tables
+models/                 → staging, intermediate, and mart models
+dashboard/              → Tableau workbooks (.twbx)
+presentation/           → executive summary
+images/                 → dashboard preview image
+\```
 
-- `README.md`
-- `docs/`
-- `data/synthetic/`
-- `dbt/`
-- `notebooks/`
-- `dashboard/`
-- `presentation/`
-
-Documentation will include the business case, architecture, metric dictionary, executive summary, and dashboard notes.
-
-## Tech Stack
-
-- **SQL**
-- **BigQuery**
-- **dbt**
-- **Python**
-- **Tableau**
-- **GitHub**
+---
 
 ## Why This Project Matters
 
-This project is intended to demonstrate the end-to-end skill set expected in analyst and analytics-focused roles, including:
+This project demonstrates the end-to-end skill set expected in analyst and analytics-focused roles:
 
-- product analytics
-- SQL transformation and business modeling
-- Python-based analytical support
-- cloud data warehousing
-- BI dashboarding
-- stakeholder-oriented metric design
-- business recommendation development
-- executive communication
+- Product and behavioral analytics
+- SQL transformation and business data modeling (dbt)
+- Cloud data warehousing (BigQuery)
+- BI dashboard design and development (Tableau — parameters, table calculations, dual-axis charts, dynamic annotations)
+- Multi-source dashboard architecture and cross-source filtering design
+- Stakeholder-oriented KPI design
+- Business recommendation development and executive communication
+- Debugging real analytical correctness issues (aggregation pitfalls, threshold-before-aggregation errors) — not just building charts, but ensuring the numbers behind them are right
 
-## Next Build Steps
-
-The next implementation steps are:
-
-- set up the GitHub repository
-- connect to the GA4 public dataset in BigQuery
-- define the synthetic enrichment tables
-- create the dbt project structure
-- build staging models
-- begin metric validation for the funnel and executive KPIs
+---
 
 ## Status
 
-This project is currently in active development. The business problem, architecture, metric framework, and repository structure have been defined. The next phase is implementation of the cloud data model and analytics workflow.
+**Complete.** The business problem, architecture, metric framework, dbt pipeline, and Tableau executive dashboard have all been built and validated. The dashboard is in the process of being published to Tableau Public for public interactive access.
 
 ---
 
 **Author:** Ishan (Friday) Mishra
-**Program:** M.S. in Information Systems Management (Business Intelligence & Data Analytics), Carnegie Mellon University  
+**Program:** M.S. in Information Systems Management (Business Intelligence & Data Analytics), Carnegie Mellon University
 **Background:** B.S. in Information Systems and Data Science, University of Wisconsin–Madison
