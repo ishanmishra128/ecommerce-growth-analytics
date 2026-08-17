@@ -61,27 +61,19 @@ The dashboard includes a shared date-range control (Nov 1, 2020 – Jan 31, 2021
 ## Technical Approach
 
 ### Architecture
-\```
+```
 
 GA4 event data + synthetic enrichment tables
-
         ↓
-        
   Staging models (BigQuery)
-  
-        ↓
-        
+        ↓        
   Intermediate behavioral models
-  
         ↓
-        
   Business marts (funnel, retention, channel efficiency, executive KPIs)
-  
         ↓
-        
   Tableau dashboard + executive memo
   
-\```
+```
 
 ### Stack
 - **BigQuery** — cloud data warehousing
@@ -139,7 +131,7 @@ GA4 event data + synthetic enrichment tables
 
 ## Repository Structure
 
-\```
+```
 README.md
 docs/                   → architecture notes, metric dictionary, dashboard screenshots
 seeds/                  → synthetic spend, margin, and support/returns tables
@@ -147,7 +139,7 @@ models/                 → staging, intermediate, and mart models
 dashboard/              → Tableau workbooks (.twbx)
 presentation/           → executive summary
 images/                 → dashboard preview image
-\```
+```
 
 ---
 
@@ -168,7 +160,7 @@ This project demonstrates the end-to-end skill set expected in analyst and analy
 
 ## Status
 
-**Complete.** The business problem, architecture, metric framework, dbt pipeline, and Tableau executive dashboard have all been built and validated. The dashboard is in the process of being published to Tableau Public for public interactive access.
+**Complete.** The business problem, architecture, metric framework, dbt pipeline, and Tableau executive dashboard have all been built and validated.
 
 ---
 
