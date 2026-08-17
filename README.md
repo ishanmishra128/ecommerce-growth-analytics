@@ -62,15 +62,25 @@ The dashboard includes a shared date-range control (Nov 1, 2020 – Jan 31, 2021
 
 ### Architecture
 \```
+
 GA4 event data + synthetic enrichment tables
+
         ↓
+        
   Staging models (BigQuery)
+  
         ↓
+        
   Intermediate behavioral models
+  
         ↓
+        
   Business marts (funnel, retention, channel efficiency, executive KPIs)
+  
         ↓
+        
   Tableau dashboard + executive memo
+  
 \```
 
 ### Stack
