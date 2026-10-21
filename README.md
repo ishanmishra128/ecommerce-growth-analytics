@@ -1,4 +1,4 @@
-# Unclogging the Funnel — Driving Conversion, Retention, and Revenue: An End-to-End E-commerce Analytics Case Study
+# Unclogging the Funnel - Driving Conversion, Retention, and Revenue: An End-to-End E-commerce Analytics Case Study
 
 ![Dashboard Screenshot](images/ecom_funnel_dashboard_preview.png)
 
@@ -6,11 +6,11 @@
 
 ## Project Summary
 
-A mid-sized retailer with a growing e-commerce channel has been investing in digital acquisition to increase online revenue. Although traffic and engagement have grown, revenue has not kept pace. This project investigates where the customer journey is breaking down, which acquisition channels drive high-value users, and what behaviors are associated with repeat purchase — transforming event-level behavioral data into an executive-ready analytics dashboard and set of business recommendations.
+A mid-sized retailer with a growing e-commerce channel has been investing in digital acquisition to increase online revenue. Although traffic and engagement have grown, revenue has not kept pace. This project investigates where the customer journey is breaking down, which acquisition channels drive high-value users, and what behaviors are associated with repeat purchase transforming event-level behavioral data into an executive-ready analytics dashboard and set of business recommendations.
 
 ## Business Problem
 
-Leadership is concerned that increased top-of-funnel activity is not translating into proportional revenue growth. This project identifies whether the problem is driven by weak acquisition quality, poor on-site conversion, low repeat purchase behavior, or a combination — and quantifies the highest-impact opportunity for the business to act on first.
+Leadership is concerned that increased top-of-funnel activity is not translating into proportional revenue growth. This project identifies whether the problem is driven by weak acquisition quality, poor on-site conversion, low repeat purchase behavior, or a combination, and quantifies the highest-impact opportunity for the business to act on first.
 
 ## Core Business Question
 
@@ -18,10 +18,10 @@ Leadership is concerned that increased top-of-funnel activity is not translating
 
 ## Stakeholders
 
-- **VP of Product** — user journey friction, on-site behavior, conversion opportunities
-- **Director of E-commerce** — revenue performance, merchandising outcomes, digital channel health
-- **Director of Growth Marketing** — acquisition quality, channel efficiency, downstream commercial impact
-- **Director of Finance** *(secondary)* — growth efficiency, ROI, sustainability of e-commerce investment
+- **VP of Product** - user journey friction, on-site behavior, conversion opportunities
+- **Director of E-commerce** - revenue performance, merchandising outcomes, digital channel health
+- **Director of Growth Marketing** - acquisition quality, channel efficiency, downstream commercial impact
+- **Director of Finance** *(secondary)* - growth efficiency, ROI, sustainability of e-commerce investment
 
 ---
 
@@ -29,11 +29,11 @@ Leadership is concerned that increased top-of-funnel activity is not translating
 
 | Area | Finding |
 |---|---|
-| **Funnel** | **142,407 sessions (77.2%)** drop off before ever viewing a product — by far the largest leak in the funnel, dwarfing losses at cart or checkout |
-| **Channel Quality** | **Merch Store Referral** converts at **4.8%** on just 19,234 sessions — several times the rate of Google, the largest-volume channel, which converts at under 1% |
-| **Retention** | Repeat customers are **13.9%** of buyers but generate **24.9%** of revenue — nearly double their proportional share |
+| **Funnel** | **142,407 sessions (77.2%)** drop off before ever viewing a product - by far the largest leak in the funnel, dwarfing losses at cart or checkout |
+| **Channel Quality** | **Merch Store Referral** converts at **4.8%** on just 19,234 sessions - several times the rate of Google, the largest-volume channel, which converts at under 1% |
+| **Retention** | Repeat customers are **13.9%** of buyers but generate **24.9%** of revenue - nearly double their proportional share |
 
-**Bottom line:** the business's biggest revenue opportunity isn't acquiring more traffic or fixing checkout — it's improving what happens the moment a session lands, reallocating acquisition spend toward already-proven high-quality channels, and protecting the small but disproportionately valuable repeat-customer base.
+**Bottom line:** the business's biggest revenue opportunity isn't acquiring more traffic or fixing checkout - it's improving what happens the moment a session lands, reallocating acquisition spend toward already-proven high-quality channels, and protecting the small but disproportionately valuable repeat-customer base.
 
 See the full [Executive Summary](presentation/executive_summary.md) for the complete recommendation memo.
 
@@ -49,12 +49,12 @@ The dashboard includes a shared date-range control (Nov 1, 2020 – Jan 31, 2021
 
 ## Dashboard Structure
 
-- **Executive KPI Scorecard** — Revenue, Sessions, Session-to-Purchase Conversion Rate, Revenue per Active User, Average Order Value
-- **Funnel View** — five-stage conversion funnel (Session Start → Product View → Add to Cart → Begin Checkout → Purchase) with dynamic step-over-step conversion rates and an automatically updating drop-off annotation
-- **Channel Efficiency View** — dual-axis chart comparing session volume against conversion rate by acquisition channel, isolating high-quality/low-volume channels from high-volume/low-quality ones
-- **Retention Snapshot** — repeat purchase rate and revenue share from returning customers, plus a new-vs-returning revenue split
-- **Key Insights Panel** — decision-oriented takeaways (Convert / Optimize / Retain) summarizing what leadership should prioritize
-- **Global Date Range Filter** — shared across all sections despite the dashboard using multiple independent data sources (see Technical Approach)
+- **Executive KPI Scorecard** - Revenue, Sessions, Session-to-Purchase Conversion Rate, Revenue per Active User, Average Order Value
+- **Funnel View** - five-stage conversion funnel (Session Start → Product View → Add to Cart → Begin Checkout → Purchase) with dynamic step-over-step conversion rates and an automatically updating drop-off annotation
+- **Channel Efficiency View** - dual-axis chart comparing session volume against conversion rate by acquisition channel, isolating high-quality/low-volume channels from high-volume/low-quality ones
+- **Retention Snapshot** - repeat purchase rate and revenue share from returning customers, plus a new-vs-returning revenue split
+- **Key Insights Panel** - decision-oriented takeaways (Convert / Optimize / Retain) summarizing what leadership should prioritize
+- **Global Date Range Filter** - shared across all sections despite the dashboard using multiple independent data sources (see Technical Approach)
 
 ---
 
@@ -76,10 +76,10 @@ GA4 event data + synthetic enrichment tables
 ```
 
 ### Stack
-- **BigQuery** — cloud data warehousing
-- **dbt** — SQL-based transformation, layered staging → intermediate → mart modeling
-- **Tableau** — dashboard development, BigQuery Custom SQL connections, parameter-driven filtering
-- **GitHub** — documentation and version control
+- **BigQuery** - cloud data warehousing
+- **dbt** - SQL-based transformation, layered staging → intermediate → mart modeling
+- **Tableau** - dashboard development, BigQuery Custom SQL connections, parameter-driven filtering
+- **GitHub** - documentation and version control
 
 ### Core Data Models
 - `int_sessions`, `int_funnel_events`, `int_orders`, `int_user_activity`
@@ -96,13 +96,13 @@ GA4 event data + synthetic enrichment tables
 
 **BigQuery Custom SQL for chart-ready reshaping.** Several visuals (the funnel stage chart, the channel volume/quality chart) required data in a different shape than the marts naturally provide. These were built as Custom SQL connections directly against BigQuery, including CTE-based logic to correctly classify long-tail acquisition channels by lifetime volume rather than per-day volume.
 
-**Live-computed rates over pre-aggregated ratios.** Conversion and drop-off rates are computed as live Tableau calculations (aggregate calcs or table calculations) rather than pre-computed percentage columns in SQL — pre-computed ratios summed incorrectly once a date dimension was introduced for filtering, so all rate logic was moved to compute from correctly-aggregated raw counts at query time.
+**Live-computed rates over pre-aggregated ratios.** Conversion and drop-off rates are computed as live Tableau calculations (aggregate calcs or table calculations) rather than pre-computed percentage columns in SQL - pre-computed ratios summed incorrectly once a date dimension was introduced for filtering, so all rate logic was moved to compute from correctly-aggregated raw counts at query time.
 
 ---
 
 ## Metric Framework
 
-**North-Star Metric:** Revenue per Active User (RPAU) = Total Revenue / Distinct Active Users in Period — chosen because it captures the combined effect of acquisition quality, on-site conversion, repeat purchase behavior, and monetization in a single number.
+**North-Star Metric:** Revenue per Active User (RPAU) = Total Revenue / Distinct Active Users in Period - chosen because it captures the combined effect of acquisition quality, on-site conversion, repeat purchase behavior, and monetization in a single number.
 
 **Executive KPIs:** Revenue, Purchase Conversion Rate, Average Order Value, Repeat Purchase Rate, Estimated Gross Profit, ROAS/CAC Proxy
 
@@ -114,10 +114,10 @@ GA4 event data + synthetic enrichment tables
 
 ## Data Sources
 
-- **GA4 public sample e-commerce dataset** (BigQuery) — primary source of event-level digital behavior
-- **Synthetic channel spend table** — supports acquisition efficiency analysis
-- **Synthetic product margin table** — estimates gross profit and margin contribution
-- **Synthetic support/returns table** — introduces operational and customer experience guardrails
+- **GA4 public sample e-commerce dataset** (BigQuery) - primary source of event-level digital behavior
+- **Synthetic channel spend table** - supports acquisition efficiency analysis
+- **Synthetic product margin table** - estimates gross profit and margin contribution
+- **Synthetic support/returns table** - introduces operational and customer experience guardrails
 
 ---
 
@@ -125,7 +125,7 @@ GA4 event data + synthetic enrichment tables
 
 - Synthetic paid-channel spend data (Google CPC, Facebook remarketing, email promo) did not reliably join to real session/order data at the row level; ROAS for these channels is flagged as a data gap rather than shown as a misleading $0
 - The long-tail channel bucketing threshold is calibrated against the full 3-month period; very short date-range selections may shift which channels appear in the "long tail" grouping
-- One synthetic product margin row contained a negative gross profit due to a bad unit-cost value in the synthetic enrichment data — a known artifact of the synthetic tables, not a real business finding
+- One synthetic product margin row contained a negative gross profit due to a bad unit-cost value in the synthetic enrichment data - a known artifact of the synthetic tables, not a real business finding
 
 ---
 
@@ -150,11 +150,11 @@ This project demonstrates the end-to-end skill set expected in analyst and analy
 - Product and behavioral analytics
 - SQL transformation and business data modeling (dbt)
 - Cloud data warehousing (BigQuery)
-- BI dashboard design and development (Tableau — parameters, table calculations, dual-axis charts, dynamic annotations)
+- BI dashboard design and development (Tableau - parameters, table calculations, dual-axis charts, dynamic annotations)
 - Multi-source dashboard architecture and cross-source filtering design
 - Stakeholder-oriented KPI design
 - Business recommendation development and executive communication
-- Debugging real analytical correctness issues (aggregation pitfalls, threshold-before-aggregation errors) — not just building charts, but ensuring the numbers behind them are right
+- Debugging real analytical correctness issues (aggregation pitfalls, threshold-before-aggregation errors) - not just building charts, but ensuring the numbers behind them are right
 
 ---
 
